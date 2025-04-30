@@ -79,3 +79,17 @@ async function getAllActresses(): Promise<Actress[] | null> {
   }
 }
 
+async function getActresses(ids: number[]): Promise<Actress[] | null> {
+  try {
+    const promises = ids.map(id => fetch(`https://boolean-spec-frontend.vercel.app/freetestapi/actresses/${id}`));
+    const responses = await Promise.all(promises);
+    const data = await Promise.all(responses.map(response => response.json()));
+
+    return data as Actress[];
+  } catch (err) {
+    console.error(err);
+    return null;
+  }
+}
+
+
